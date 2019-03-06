@@ -7,7 +7,7 @@
     "start": "node server.js",
     "test": "NODE_ENV=test mocha ./test/test.js"
   },
-  "author": "eshengsky@163.com",
+  "author": "ddzyan@163.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/ddzyan/noginx.git"
