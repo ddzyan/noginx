@@ -10,7 +10,7 @@
   "author": "eshengsky@163.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eshengsky/noginx"
+    "url": "https://github.com/ddzyan/noginx.git"
   },
   "license": "MIT",
   "dependencies": {
