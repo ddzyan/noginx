@@ -6,14 +6,17 @@
  */
 const express = require('express');
 const app = express();
+// 设置views模板引擎和views路径
 app.set('view engine', 'pug');
 app.set('views', './web/views');
 const favicon = require('serve-favicon');
 const path = require('path');
 const fs = require('fs');
 const version = require('./package.json').version;
+// 返回配置文件路径
 const configPath = require('./getConfigPath')();
 const config = require(configPath);
+
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const log4js = require('./lib/log4js');
@@ -22,6 +25,7 @@ const logger = log4js.getLogger('noginx');
 const webRoute = require('./web/route');
 const schedule = require('./schedule');
 const common = require('./utilities/common');
+// url解析模块
 const url = require('url');
 const querystring = require('querystring');
 const debugMode = require('./debugMode');
@@ -31,10 +35,12 @@ const staticDirPath = config.staticDirPath;
 const settings = require('./settings');
 const staticHandler = require('./staticHandler');
 const proxyWeb = require('./proxyWeb');
-const isDebug = process.argv[2] === '--debug';
+//const isDebug = process.argv[2] === '--debug';
+const isDebug = true;
 const defaultPort = 9000;
 const permissionModules = {};
 const permissionDir = path.join(__dirname, './permissionModules');
+// 读取目录的内容
 fs.readdir(permissionDir, (err, files) => {
     if (err) {
         logger.error('读取permissionModules出错！', err);

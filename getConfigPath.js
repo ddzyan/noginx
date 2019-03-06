@@ -17,6 +17,7 @@ module.exports = () => {
         return modulePath;
     }
     let configName = process.env.config || process.env.NODE_ENV || 'development';
+    // path.extname 返回文件扩展名
     if (path.extname(configName) !== '.js') {
         configName = `${configName}.js`;
     }

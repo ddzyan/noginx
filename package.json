@@ -45,6 +45,7 @@
     "sortablejs": "^1.7.0",
     "sweetalert": "^2.1.0",
     "switchery": "git+https://github.com/abpetkov/switchery.git",
+    "url": "^0.11.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

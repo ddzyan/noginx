@@ -4,6 +4,7 @@
  * @Last Modified by: Sky.Sun
  * @Last Modified time: 2018-07-11 10:20:30
  */
+// 从数据库中获取，保存在内存中
 let routes = [];
 let servers = [];
 let caches = [];

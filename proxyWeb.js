@@ -12,6 +12,8 @@ const settings = require('./settings');
 const debugMode = require('./debugMode');
 const log4js = require('./lib/log4js');
 const logger = log4js.getLogger('noginx-webui');
+const https = require("https");
+const url = require('url');
 
 const proxy = httpProxy.createProxyServer({
     xfwd: true,
@@ -79,7 +81,7 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
             res.writeHead = (...writeHeadArgs) => {
                 _writeHeadArgs = writeHeadArgs;
             };
-            res.write = () => { };
+            res.write = () => {};
             res.end = (...endArgs) => {
                 const output = debugMode.getDebugHtml(body, logs);
 
@@ -201,7 +203,13 @@ function getRandomItem(list, weight) {
  * @param {object} { req, res, serverId, serverName, logMsg }
  * @returns
  */
-function proxyWeb({ req, res, serverId, serverName, logMsg }) {
+function proxyWeb({
+    req,
+    res,
+    serverId,
+    serverName,
+    logMsg
+}) {
     const servers = settings.getServers();
     let server;
     if (serverId) {
@@ -211,7 +219,10 @@ function proxyWeb({ req, res, serverId, serverName, logMsg }) {
     }
     if (server) {
         logMsg += `转发至${server.name}`;
-        const addresses = server.addresses;
+        const {
+            addresses,
+            name: host
+        } = server;
         if (addresses && Array.isArray(addresses) && addresses.length > 0) {
             const list = addresses.map(t => t.address);
             const weight = addresses.map(t => Number(t.weight));
@@ -224,11 +235,26 @@ function proxyWeb({ req, res, serverId, serverName, logMsg }) {
                 res.sendStatus(500);
                 return;
             }
-            
-            // proxy 参数
+            const {
+                protocol
+            } = url.parse(proxyAddress);
             const option = {
-                target: proxyAddress
+                target: proxyAddress,
+                preserveHeaderKeyCase: true,
             };
+            // proxy 参数
+            switch (protocol) {
+                case 'https:':
+                    option.agent = https.globalAgent;
+                    option.headers = {
+                        host
+                    };
+                    break;
+
+                default:
+                    break;
+            }
+
 
             // URL 中存在调试参数，设置为允许修改响应
             if (req.query[debugMode.debugParam] === 'true') {

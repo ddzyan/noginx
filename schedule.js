@@ -8,11 +8,12 @@ const schedule = require('node-schedule');
 const configPath = require('./getConfigPath')();
 const config = require(configPath);
 const job = config.job;
+// mongodb 2个表
 const routeModel = require('./models/routes').routeModel;
 const serverModel = require('./models/servers').serverModel;
-const permissionModel = require('./models/permissions').permissionModel;
 const cacheModel = require('./models/caches').cacheModel;
 const domainModel = require('./models/domains').domainModel;
+const permissionModel = require('./models/permissions').permissionModel;
 const log4js = require('./lib/log4js');
 const logger = log4js.getLogger('proxy-schedule');
 const common = require('./utilities/common');
@@ -111,6 +112,7 @@ const updateSettings = () => {
 };
 const startJob = () => {
     updateSettings();
+    // 每隔一秒，从数据库中获取配置，更新内存值
     schedule.scheduleJob(job, () => {
         updateSettings();
     });
