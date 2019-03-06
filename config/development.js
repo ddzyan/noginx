@@ -110,7 +110,7 @@ module.exports = {
         /**
          * MongoDB 连接字符串，支持集群
          */
-        mongodb: 'mongodb://111.231.215.55:27017/noginx',
+        mongodb: 'mongodb://127.0.0.1:27017/noginx',
 
         /**
          * Redis 键前缀
@@ -120,7 +120,7 @@ module.exports = {
         /**
          * Redis 连接信息，如果配置为一个数组则视为集群
          */
-        redisConnect: 'redis://111.231.215.55:6379'
+        redisConnect: 'redis://127.0.0.1:6379'
     },
 
     /**
